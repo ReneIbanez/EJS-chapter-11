@@ -71,18 +71,24 @@ function evaluate(expr, env) {
       }));
   }
 }
+specialForms["while"] = function(args, env) {
+  if (args.length != 2)
+    throw new SyntaxError("Bad number of args to while");
 
-var specialForms = Object.create(null);
+  while (evaluate(args[0], env) !== false)
+    evaluate(args[1], env);
 
-specialForms["do"] = function(args, env) {
-  var value = false;
-  args.forEach(function(arg) {
-    value = evaluate(arg, env);
-  });
-  return value;
+  // Since undefined does not exist in Egg, we return false,
+  // for lack of a meaningful result.
+  return false;
 };
 
-var topEnv = Object.create(null);
+var prog = parse("if(true, false, true)");
+console.log(evaluate(prog, topEnv));
+// → false
 
-topEnv["true"] = true;
-topEnv["false"] = false;
+["+", "-", "*", "/", "==", "<", ">"].forEach(function(op) {
+2
+  topEnv[op] = new Function("a, b", "return a " + op + " b;");
+3
+});
